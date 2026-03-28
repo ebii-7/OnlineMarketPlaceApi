@@ -1,0 +1,159 @@
+### ============================================
+### FINAL TESTING - ONLINE MARKETPLACE API
+### ============================================
+
+### 1. CREATE A NEW USER (Public)
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "username": "finalizer",
+  "email": "finalizer@example.com",
+  "password": "password123",
+  "firstName": "Final",
+  "lastName": "Test",
+  "phoneNumber": "1234567890",
+  "address": "123 Test Street",
+  "city": "Addis Ababa",
+  "country": "Ethiopia"
+}
+
+### 2. CREATE CATEGORY (Admin - Ebise_Gutema)
+POST http://localhost:8080/api/categories
+Authorization: Basic RWJpc2VfR3V0ZW1hOnBhc3N3b3JkMTIz
+Content-Type: application/json
+
+{
+  "name": "Electronics",
+  "description": "Electronic devices and accessories"
+}
+
+### 3. CREATE PRODUCT (Admin - Ebise_Gutema)
+POST http://localhost:8080/api/products
+Authorization: Basic RWJpc2VfR3V0ZW1hOnBhc3N3b3JkMTIz
+Content-Type: application/json
+
+{
+  "name": "Laptop",
+  "description": "High-performance laptop",
+  "price": 999.99,
+  "stockQuantity": 10,
+  "imageUrl": "https://example.com/laptop.jpg",
+  "categoryIds": [1]
+}
+
+### 4. GET ALL PRODUCTS (Public)
+GET http://localhost:8080/api/products
+
+### 5. GET ALL CATEGORIES (Public)
+GET http://localhost:8080/api/categories
+
+### 6. PLACE ORDER (User - finaluser)
+POST http://localhost:8080/api/orders
+Authorization: Basic ZmluYWx1c2VyOnBhc3N3b3JkMTIz
+Content-Type: application/json
+
+{
+  "items": [
+    {
+      "productId": 1,
+      "quantity": 1
+    }
+  ],
+  "paymentMethod": "CREDIT_CARD"
+}
+
+### 7. GET ORDER BY ID
+GET http://localhost:8080/api/orders/1
+Authorization: Basic ZmluYWx1c2VyOnBhc3N3b3JkMTIz
+
+### 8. GET ALL USERS (Admin only)
+GET http://localhost:8080/api/users
+Authorization: Basic RWJpc2VfR3V0ZW1hOnBhc3N3b3JkMTIz
+
+### 9. UPDATE ORDER STATUS (Admin only)
+PATCH http://localhost:8080/api/orders/1/status?status=SHIPPED
+Authorization: Basic RWJpc2VfR3V0ZW1hOnBhc3N3b3JkMTIz
+
+### 10. GET USER ORDERS
+GET http://localhost:8080/api/orders/user/1
+Authorization: Basic RWJpc2VfR3V0ZW1hOnBhc3N3b3JkMTIz
+
+### ============================================
+### EDGE CASE TESTS
+### ============================================
+
+### 11. STOCK VALIDATION (Try to order more than available)
+POST http://localhost:8080/api/orders
+Authorization: Basic ZmluYWx1c2VyOnBhc3N3b3JkMTIz
+Content-Type: application/json
+
+{
+  "items": [
+    {
+      "productId": 1,
+      "quantity": 100
+    }
+  ],
+  "paymentMethod": "CREDIT_CARD"
+}
+
+### 12. PRICE VALIDATION (Create product with negative price)
+POST http://localhost:8080/api/products
+Authorization: Basic RWJpc2VfR3V0ZW1hOnBhc3N3b3JkMTIz
+Content-Type: application/json
+
+{
+  "name": "Invalid Product",
+  "description": "This should fail",
+  "price": -10.00,
+  "stockQuantity": 5,
+  "categoryIds": [1]
+}
+
+### 13. NON-EXISTENT PRODUCT (Order with invalid product ID)
+POST http://localhost:8080/api/orders
+Authorization: Basic ZmluYWx1c2VyOnBhc3N3b3JkMTIz
+Content-Type: application/json
+
+{
+  "items": [
+    {
+      "productId": 999,
+      "quantity": 1
+    }
+  ],
+  "paymentMethod": "CREDIT_CARD"
+}
+
+### 14. NON-EXISTENT USER
+GET http://localhost:8080/api/users/99
+Authorization: Basic RWJpc2VfR3V0ZW1hOnBhc3N3b3JkMTIz
+
+### 15. NON-EXISTENT ORDER
+GET http://localhost:8080/api/orders/9999
+Authorization: Basic ZmluYWx1c2VyOnBhc3N3b3JkMTIz
+
+### 16. UNAUTHORIZED ACCESS (No credentials)
+PATCH http://localhost:8080/api/orders/1/status?status=SHIPPED
+
+### 17. MISSING REQUIRED FIELDS (Create product without name)
+POST http://localhost:8080/api/products
+Authorization: Basic RWJpc2VfR3V0ZW1hOnBhc3N3b3JkMTIz
+Content-Type: application/json
+
+{
+  "description": "Missing name and price"
+}
+
+### 18. DUPLICATE USER (Try to create existing user)
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "username": "finaluser",
+  "email": "final@example.com",
+  "password": "password123",
+  "firstName": "Duplicate",
+  "lastName": "User"
+}
