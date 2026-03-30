@@ -491,4 +491,4 @@ This project is licensed under the Apache 2.0 License.
 
 # Contact
     Ebise Gutema  ebisegutema@gmail.com
-Project Link: https://github.com/ebii-7/onlinemarketplace
+Project Link: https://github.com/ebii-7/OnlineMarketPlaceApi.git
