@@ -156,6 +156,28 @@ The application follows a clean-layered architecture:
 - **Password Encoding**: BCrypt
 - **Session Management**: Stateless (no sessions)
 
+## Default Credentials
+
+For testing and accessing protected endpoints, use the following credentials:
+
+| Username     | Password    | Role  | Access                                             |
+|--------------|-------------|-------|----------------------------------------------------|
+| Ebise_Gutema | password123 | ADMIN | Full access to all endpoints, including Swagger UI |
+| admin        | admin123    | USER  | Can place orders and view own data                 |
+
+### Swagger UI Access
+- URL: `http://localhost:8080/swagger-ui.html`
+- Username: `Ebise_Gutema`
+- Password: `password123`
+
+### Base64 Authentication Headers
+For manual testing, use these Base64 encoded credentials:
+
+| Credentials              | Base64 Value                       |
+|--------------------------|------------------------------------|
+| Ebise_Gutema:password123 | `RWJpc2VfR3V0ZW1hOnBhc3N3b3JkMTIz` |
+| admin:admin123           | `YWRtaW46YWRtaW4xMjM=`             |
+
 ## Default Users
 
 | Username     | Password    | Role  |
