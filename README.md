@@ -156,28 +156,39 @@ The application follows a clean-layered architecture:
 - **Password Encoding**: BCrypt
 - **Session Management**: Stateless (no sessions)
 
-## Default Credentials
+## Authentication & Access
 
-For testing and accessing protected endpoints, use the following credentials:
+### Default Users
 
-| Username     | Password    | Role  | Access                                             |
-|--------------|-------------|-------|----------------------------------------------------|
-| Ebise_Gutema | password123 | ADMIN | Full access to all endpoints, including Swagger UI |
-| admin        | admin123    | USER  | Can place orders and view own data                 |
+The application comes with two pre-configured users:
+
+| Username         | Password    | Role      | Permissions                                                             |
+|------------------|-------------|-----------|-------------------------------------------------------------------------|
+| **Ebise_Gutema** | password123 | **ADMIN** | Full access - can create/update/delete products, categories, and orders |
+| **admin**        | admin123    | USER      | Limited access - can place orders and view own data                     |
 
 ### Swagger UI Access
-- URL: `http://localhost:8080/swagger-ui.html`
-- Username: `Ebise_Gutema`
-- Password: `password123`
 
-### Base64 Authentication Headers
-For manual testing, use these Base64 encoded credentials:
+To view the API documentation:
+1. Navigate to: `http://localhost:8080/swagger-ui.html`
+2. Click the "Authorize" button at the top
+3. Enter username: `Ebise_Gutema`, password: `password123`
+4. Click "Authorize" and close the dialog
 
-| Credentials              | Base64 Value                       |
-|--------------------------|------------------------------------|
-| Ebise_Gutema:password123 | `RWJpc2VfR3V0ZW1hOnBhc3N3b3JkMTIz` |
-| admin:admin123           | `YWRtaW46YWRtaW4xMjM=`             |
+### Testing with HTTP Requests
 
+For manual testing, use these Authorization headers:
+
+| User Type    | Authorization Header                                    |
+|--------------|---------------------------------------------------------|
+| Admin        | `Authorization: Basic RWJpc2VfR3V0ZW1hOnBhc3N3b3JkMTIz` |
+| Regular User | `Authorization: Basic YWRtaW46YWRtaW4xMjM=`             |
+
+### Important Notes
+- **Swagger UI requires authentication** -use the admin credentials above
+- **Admin operations** (creating products, categories, updating order status) require admin privileges
+- **Order placement** works with any authenticated user
+- Passwords are stored securely using BCrypt encryption
 ## Default Users
 
 | Username     | Password    | Role  |
